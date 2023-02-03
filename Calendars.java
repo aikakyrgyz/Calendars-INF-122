@@ -1,0 +1,230 @@
+
+
+import java.util.GregorianCalendar;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+
+public class Calendars
+{
+    public static int ID = 0;
+    enum visualModes {DAY, WEEK, MONTH, YEAR}
+
+
+
+    Person owner;
+    String nameCalendar;
+    MonthVisual monthV;
+    DayVisual dayV;
+    boolean mode; //private or public 
+    visualModes currentVisualMode;
+
+    boolean isPublic;
+    CalendarTypeEnum type;
+
+    int todayDay;
+    int todayMonth;
+    int todayYear;
+
+    int currentDay;
+    int currentMonth;
+    int currentYear;
+
+    String name;
+
+    int calendarID;
+
+    Calendar calendar; 
+
+    HashMap<Integer, Event> myEventDatabase;
+
+
+    Calendars(String name)
+    {
+        calendarID = ID++;
+        //Get real month/year
+        calendar = new GregorianCalendar(); 
+        type = CalendarTypeEnum.GREGORIAN;
+        this.name = name;
+        todayDay = calendar.get(GregorianCalendar.DAY_OF_MONTH); 
+        todayMonth = calendar.get(GregorianCalendar.MONTH); 
+        todayYear = calendar.get(GregorianCalendar.YEAR); 
+        // current = user's chosen date currently
+        currentDay = todayDay;
+        currentYear = todayYear;
+        currentMonth = todayMonth;
+        // default view will be month
+        currentVisualMode = visualModes.MONTH;
+        // dayV = new DayVisual(todayDay, todayMonth, todayYear);
+        monthV = new MonthVisual();
+        myEventDatabase = new HashMap();
+        isPublic = true;
+        
+    }
+
+    public String toString()
+    {
+        return "\t" + calendarID + "\t\t" + name;
+    }
+
+    int getID()
+    {
+        return calendarID;
+    }
+
+    
+
+    void displayMonthVisual()
+    {
+        System.out.print(monthV.displayMonthVisual());
+    }
+
+    void moveToNext()
+    {
+        if(currentVisualMode == visualModes.MONTH)
+        {
+            monthV.moveNextMonth();
+            System.out.print(monthV.displayMonthVisual());
+        }
+    }
+
+
+
+    void moveToPrevious()
+    {
+        if(currentVisualMode == visualModes.MONTH)
+        {
+            monthV.moveToPrevious();
+            System.out.print(monthV.displayMonthVisual());
+        }
+    }
+
+
+    void crud()
+    {
+        System.out.println("What would you like to do with your calendar?\n");
+        
+    }
+
+
+   visualModes getCurrentView()
+   {
+    return currentVisualMode;
+   }
+
+
+    void setVisualMode(int choice)
+    {
+        switch(choice)
+        {
+            case 1: currentVisualMode = visualModes.DAY; break;
+            case 2: currentVisualMode = visualModes.WEEK; break;
+            case 3: currentVisualMode = visualModes.MONTH; break;
+            case 4: currentVisualMode = visualModes.YEAR; break;
+        }
+    }
+
+    ArrayList<Object> determineFieldsToAsk()
+    {
+        ArrayList<Object> arr = new ArrayList<Object>();
+
+        if(currentVisualMode == visualModes.DAY)
+        {
+            arr.add(3);
+            arr.add("day");
+            arr.add("month");
+            arr.add("year");
+        }
+        else if(currentVisualMode == visualModes.MONTH)
+        {
+            arr.add(2);
+            arr.add("month");
+            arr.add("year");
+        }
+        else if(currentVisualMode == visualModes.YEAR)
+        {
+            arr.add(1);
+            arr.add("year");
+        }
+        return arr;
+    }
+
+    void setSpecificViewPeriod(int[] arr)
+    {
+        if(currentVisualMode == visualModes.DAY)
+        {
+            currentDay = arr[0];
+            currentMonth = arr[1];
+            currentYear = arr[2];
+        }
+        else if(currentVisualMode == visualModes.MONTH)
+        {
+            currentMonth = arr[0];
+            currentYear = arr[1];
+        }
+        else if(currentVisualMode == visualModes.YEAR)
+        {
+            currentYear = arr[0];
+        }
+    }
+    
+    Person getOwner()
+    {
+        return owner;
+    }
+
+    boolean getMode()
+    {
+        return mode;
+    }
+
+
+    void addEvent(String title, String startTime, String endTime, int day, int month, int year)
+    {
+        Event myEvent = new Event(title, startTime, endTime, day, month, year);
+        myEventDatabase.put(myEvent.getid(), myEvent);
+
+    }
+
+    void viewAllEvents()
+    {
+        if(currentVisualMode == visualModes.MONTH)
+        {
+            monthV.viewAllEvents(myEventDatabase);
+        }
+    }
+    
+
+    boolean deleteEvent(int eventID)
+    {
+        try
+        {
+            Event toDelete = myEventDatabase.get(eventID);
+            System.out.println(toDelete);
+            myEventDatabase.remove(eventID);
+            return true;
+        }
+        catch(Exception e)
+        {
+            System.out.println("The id was entered wrong");
+            return false;
+        }
+
+    }
+
+
+
+    // public static void main(String[] args)
+    // {
+    //     Calendar myCalendar = new Calendar();
+    //     myCalendar.displayMonthVisual();
+    // }
+
+
+}
