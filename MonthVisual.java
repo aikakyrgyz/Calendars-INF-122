@@ -3,8 +3,13 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import java.util.*;
-class MonthVisual 
+
+
+class MonthVisual implements Movable, Displayable
 {
+    static String[] dayTitles = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri",
+    "Sat"};
+
     int year;
     String currentMonthName;
     int month;
@@ -12,37 +17,26 @@ class MonthVisual
     int firstDayOfMonth; 
     Calendar cal;
     Calendar temp;
-    String[] dayTitles = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri",
-    "Sat"};
+
 
     public MonthVisual()
     {
-        // GregorianCalendar c = new GregorianCalendar(2023, GregorianCalendar.FEBRUARY, 1);
-        // GregorianCalendar c = new GregorianCalendar(year, month, 1);
         cal = Calendar.getInstance();
         currentMonthName = cal.getDisplayName(GregorianCalendar.MONTH, GregorianCalendar.LONG, Locale.US);
         firstDayOfMonth = cal.get(GregorianCalendar.DAY_OF_WEEK); //assuming the calendar was just initialized
         monthLength = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
         temp = (Calendar)cal.clone();
-
-        // int	getActualMaximum(int field)
-        // Returns the maximum value that the specified calendar field could have,
-        // given the time value of this Calendar.
-
     }
 
-    String displayMonthVisual()
+    public String display()
     {
 
         String output = "Today's date: " + cal.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.US) + " " + cal.get(Calendar.DAY_OF_MONTH) + ", " + cal.get(Calendar.YEAR) +"\n";
-
         // working with the temp  cal since it will change as the user moves around
         String name = temp.getDisplayName(GregorianCalendar.MONTH, GregorianCalendar.LONG, Locale.US);
         int monthLength = temp.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
         temp.set(Calendar.DAY_OF_MONTH, 1);
         int firstDayOfMonth = temp.get(GregorianCalendar.DAY_OF_WEEK); //assuming the calendar was just initialized
-        // System.out.println("STARTS FROM " + firstDayOfMonth);
-        // System.out.println(firstDayOfMonth);
         output+= "\n\n\t\t\t " + name.toUpperCase() + ", " + temp.get(Calendar.YEAR) + "\n" ;
         
 
@@ -65,47 +59,18 @@ class MonthVisual
             }
             output+= "\n";
         }
-        // System.out.println(output);
         return output;
     }
 
-   void moveNextMonth() 
+   public void moveToNext() 
    {
-
-
         temp.add(Calendar.MONTH, 1);
-
-        // if (month == 11)
-        // {
-        //     year+=1;
-        //     month = 0;
-        //     cal.add(Calendar.MONTH, 1);
-        // }
-        // else {
-        //     GregorianCalendar c = new GregorianCalendar(year, month+1, 1);
-        //     c.getDisplayName(GregorianCalendar.MONTH, GregorianCalendar.LONG, Locale.US);
-        //     // firstDayOfMonth = c.get(GregorianCalendar.DAY_OF_WEEK); //assuming the calendar was just initialized
-        //     firstDayOfMonth = c.get(GregorianCalendar.DAY_OF_WEEK); //assuming the calendar was just initialized
-
-        //     monthLength = c.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
-        //     month++;
-        // }
    }
 
-   void moveToPrevious()
+   public void moveToPrevious()
    {
         temp.add(Calendar.MONTH, -1);
    }
-
-
-   // void movePreviousMonth()
-
-   // void selectDay() // select the day in order to addEvent or editEvents within it
-
-   // void addEvent()
-   // String viewEvent()
-   // void editEvent(int id)
-   // void deleteEvent(int id)
 
    int getCurrentMonth()
    {
@@ -131,10 +96,10 @@ class MonthVisual
 
             // System.out.println("Views month: " + temp.get(Calendar.MONTH));
 
-            if (event.getEventMonth() == temp.get(Calendar.MONTH))
+            if (event.getEventMonth() == temp.get(Calendar.MONTH) && event.getEventYear() == temp.get(Calendar.YEAR))
             {
                 count++;
-                System.out.println(key + "\t\t" + event.getTitle() + "\t" + event.getDate() + "\t  " + event.getStartTime() + "\t  " + event.getEndTime());
+                System.out.println(key + "\t\t" + event.getTitle() + "\t      " + event.getDate() + "\t     " + event.getStartTime() + "\t    " + event.getEndTime());
             }
         }
         if(count == 0)

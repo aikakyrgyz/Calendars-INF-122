@@ -1,19 +1,9 @@
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.Calendar;
-import java.util.Date;
-import java.sql.Time;
 import java.util.Scanner;
 
 public class Event {
-    // String fajr_prayertime  =       prayerTimes.get(0);
-    // DateFormat formatter = new SimpleDateFormat("HH:mm");
-    // Time timeValue = newTime(formatter.parse(fajr_prayertime).getTime());
     String title;
-    // Time startTime;
-    // Time endTime;
     String startTime;
     String endTime;
     String location;
@@ -37,16 +27,6 @@ public class Event {
         eventDateTime.set(Calendar.MINUTE, Integer.parseInt(startTime.split("-")[1]));
         this.startTime = startTime;
         this.endTime = endTime;
-
-
-        // eventData
-
-
-        // DateFormat formatter = new SimpleDateFormat("HH:mm");
-        // this.startTime = new Time(formatter.parse(startTime).getTime());
-        // this.endTime = new Time(formatter.parse(endTime).getTime());
-        // this.owner = owner; 
-        // this.cal = cal;
 
     }
 
@@ -108,6 +88,10 @@ public class Event {
         return eventDateTime.get(Calendar.MONTH);
     }
 
+    int getEventYear()
+    {
+        return eventDateTime.get(Calendar.YEAR);
+    }
 
     String getStartTime(){
         return startTime;
@@ -124,14 +108,14 @@ public class Event {
         Scanner scanner = new Scanner(System.in);
         String dateString = scanner.nextLine();
         String[] dateArr = dateString.split("-");
-        int day = Integer.parseInt(dateArr[0]);
-        int month = Integer.parseInt(dateArr[1]);
+        int day = Integer.parseInt(dateArr[1]);
+        int month = Integer.parseInt(dateArr[0])-1; // month starts from 0
         int year = Integer.parseInt(dateArr[2]);
         eventDateTime.set(Calendar.DAY_OF_MONTH, day);
         eventDateTime.set(Calendar.MONTH, month);
         eventDateTime.set(Calendar.YEAR, year);
-        eventDateTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(startTime.substring(0, 1)));
-        eventDateTime.set(Calendar.MINUTE, Integer.parseInt(startTime.substring(2 )));
+        // eventDateTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(startTime.substring(0, 1)));
+        // eventDateTime.set(Calendar.MINUTE, Integer.parseInt(startTime.substring(2 )));
 
     }
 
@@ -158,7 +142,7 @@ public class Event {
 
     void changeTitle()
     {
-        System.out.println("Please enter new title ");
+        System.out.print("Enter the new title:");
         Scanner scanner = new Scanner(System.in);
         String title = scanner.nextLine();
         this.title = title;
@@ -168,6 +152,12 @@ public class Event {
     String getDate()
     {
        return (eventDateTime.get(Calendar.MONTH)+1) + "/" + (eventDateTime.get(Calendar.DATE)) + "/" +  eventDateTime.get(Calendar.YEAR);
+    }
+
+    public int compareTo(Object other)
+    {
+        return eventDateTime.compareTo((Calendar) other);
+
     }
 
 }

@@ -3,47 +3,30 @@
 import java.util.GregorianCalendar;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Map;
 
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 
 public class Calendars
 {
     public static int ID = 0;
     enum visualModes {DAY, WEEK, MONTH, YEAR}
-
-
-
     Person owner;
     String nameCalendar;
     MonthVisual monthV;
-    DayVisual dayV;
     boolean mode; //private or public 
     visualModes currentVisualMode;
-
     boolean isPublic;
     CalendarTypeEnum type;
-
     int todayDay;
     int todayMonth;
     int todayYear;
-
     int currentDay;
     int currentMonth;
     int currentYear;
-
     String name;
-
     int calendarID;
-
     Calendar calendar; 
-
     HashMap<Integer, Event> myEventDatabase;
-
 
     Calendars(String name)
     {
@@ -61,16 +44,14 @@ public class Calendars
         currentMonth = todayMonth;
         // default view will be month
         currentVisualMode = visualModes.MONTH;
-        // dayV = new DayVisual(todayDay, todayMonth, todayYear);
         monthV = new MonthVisual();
         myEventDatabase = new HashMap();
-        isPublic = true;
         
     }
 
     public String toString()
     {
-        return "\t" + calendarID + "\t\t" + name;
+        return "\t" + calendarID + "\t\t" + name + "\t\t " + myEventDatabase.size();
     }
 
     int getID()
@@ -78,22 +59,25 @@ public class Calendars
         return calendarID;
     }
 
+    Event getEvent(int id)
+    {
+        return myEventDatabase.get(id);
+    }
     
 
     void displayMonthVisual()
     {
-        System.out.print(monthV.displayMonthVisual());
+        System.out.print(monthV.display());
     }
 
     void moveToNext()
     {
         if(currentVisualMode == visualModes.MONTH)
         {
-            monthV.moveNextMonth();
-            System.out.print(monthV.displayMonthVisual());
+            monthV.moveToNext();
+            System.out.print(monthV.display());
         }
     }
-
 
 
     void moveToPrevious()
@@ -101,16 +85,11 @@ public class Calendars
         if(currentVisualMode == visualModes.MONTH)
         {
             monthV.moveToPrevious();
-            System.out.print(monthV.displayMonthVisual());
+            System.out.print(monthV.display());
         }
     }
 
 
-    void crud()
-    {
-        System.out.println("What would you like to do with your calendar?\n");
-        
-    }
 
 
    visualModes getCurrentView()
@@ -119,6 +98,7 @@ public class Calendars
    }
 
 
+   /* For future changes 
     void setVisualMode(int choice)
     {
         switch(choice)
@@ -174,6 +154,8 @@ public class Calendars
         }
     }
     
+    */
+    
     Person getOwner()
     {
         return owner;
@@ -217,14 +199,5 @@ public class Calendars
         }
 
     }
-
-
-
-    // public static void main(String[] args)
-    // {
-    //     Calendar myCalendar = new Calendar();
-    //     myCalendar.displayMonthVisual();
-    // }
-
 
 }

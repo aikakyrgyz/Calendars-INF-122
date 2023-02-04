@@ -1,9 +1,7 @@
 
-import java.util.List;
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+
 
 
 // why need a CalendarDatabase? If the user chooses to see all of the public calendars of all the users in the
@@ -25,6 +23,7 @@ public class CalendarDatabase {
         return myCalendarDatabase;
     }
 
+    // returns calendar with ID = id for Person = owner
     Calendars getCalendar(Person owner, int id)
     {
         HashMap<Integer, Calendars> c = calendars.get(owner);
@@ -39,7 +38,6 @@ public class CalendarDatabase {
 
     void addNewCalendar(String name, Person owner, Calendars cal)
     {
-        // System.out.println(calendars);
         if(calendars.get(owner)==null)
         {
             HashMap<Integer, Calendars> cals = new HashMap<>();
@@ -48,6 +46,7 @@ public class CalendarDatabase {
         }
         owner.addCalendar(cal);
         calendars.get(owner).put(cal.getID(), cal);
+
     }
 
     boolean deleteCalendar(Person owner, Integer id)
