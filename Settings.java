@@ -3,13 +3,27 @@ public class Settings {
     Theme theme;
     TimeZone timeZone;
 
-    Settings()
+
+    public static Settings mySettings;
+
+
+    private Settings()
+
     {
         // by default
         this.theme = Theme.LIGHT;
         this.timeZone = TimeZone.PST;
     }
 
+    public static Settings getInstance()
+    {
+        if (mySettings == null)
+            return new Settings();
+        else
+            return mySettings;
+    }
+
+    
     Theme getTheme()
     {
         return theme;

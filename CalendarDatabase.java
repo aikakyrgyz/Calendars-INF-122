@@ -4,7 +4,8 @@ import java.util.HashMap;
 
 
 
-// why need a CalendarDatabase? If the user chooses to see all of the public calendars of all the users in the
+// why need a CalendarDatabase? 
+// If the user chooses to see all of the public calendars of all the users in the
 // application then we will need to have the database. 
 public class CalendarDatabase {
 
@@ -65,6 +66,24 @@ public class CalendarDatabase {
         HashMap<Integer, Calendars> calendarsOfOwner = calendars.get(owner);
         if(calendarsOfOwner==null) return false;
         return calendarsOfOwner.containsKey(id);
+    }
+
+    String viewAllCalendars()
+    {
+        String output = "";
+
+        output += "Below are all of your exisiting calendars: \n\nCalendar ID\t\t Name \t\t # of Events\n\n";
+        HashMap<Integer, Calendars>  c = getAllCalendars(MainWindow.currentLoggedInUser);
+        if(! (c == null || c.isEmpty()))
+        {
+            for (Calendars e : c.values()) {
+                output += e + "\n";
+            }
+        }
+        else{
+            output += "\n\n-------------------- NO EXISTING CALENDARS --------------\n";
+        }
+        return output;
     }
 
 }

@@ -13,10 +13,11 @@ public class Main {
 
     public static void main(String args[]) {
 
-
+        // show the settings first
+        
         MainWindow myConsole = new MainWindow();
-    
-        myConsole.mainMenu();
+        // myConsole.mainMenu();
+        myConsole.run();
         
     }
 }

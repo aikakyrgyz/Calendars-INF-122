@@ -14,19 +14,21 @@ public class Event {
     int id;
     // Event(){}
 
-    Event(String title, String startTime, String endTime, int day, int month, int year)
+    // Event(String title, String startTime, String endTime, int day, int month, int year)
+    Event(String[] inputs)
     {
+        // title, day, month, year, starTime, endTime
         id = ID++;
-        this.title = title;
+        this.title = inputs[0];
         eventDateTime = new GregorianCalendar();
-        eventDateTime.set(Calendar.DAY_OF_MONTH, day);
-        eventDateTime.set(Calendar.MONTH, month);
-        eventDateTime.set(Calendar.YEAR, year);
+        eventDateTime.set(Calendar.DAY_OF_MONTH, Integer.parseInt(inputs[1]));
+        eventDateTime.set(Calendar.MONTH, Integer.parseInt(inputs[2])-1);
+        eventDateTime.set(Calendar.YEAR, Integer.parseInt(inputs[3]));
         // "HH-MM"
-        eventDateTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(startTime.split("-")[0]));
-        eventDateTime.set(Calendar.MINUTE, Integer.parseInt(startTime.split("-")[1]));
-        this.startTime = startTime;
-        this.endTime = endTime;
+        eventDateTime.set(Calendar.HOUR_OF_DAY, Integer.parseInt(inputs[4].split("-")[0]));
+        eventDateTime.set(Calendar.MINUTE, Integer.parseInt(inputs[4].split("-")[1]));
+        this.startTime = inputs[4];
+        this.endTime = inputs[5];
 
     }
 

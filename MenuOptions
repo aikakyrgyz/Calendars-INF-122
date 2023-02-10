@@ -1,0 +1,10 @@
+
+public interface MenuOptions {
+    public static final String[] MAIN_MENU_OPTIONS = {"1 --- Log-in",
+                                "2 --- Sign-up",
+                                "3 --- View all registered users",
+                                "4 --- View current logged-in user",
+                                "5 --- Configure settings",
+                                "6 --- Exit", 
+                                };
+}

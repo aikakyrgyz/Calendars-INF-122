@@ -167,9 +167,10 @@ public class Calendars
     }
 
 
-    void addEvent(String title, String startTime, String endTime, int day, int month, int year)
+    void addEvent(String[] inputs)
     {
-        Event myEvent = new Event(title, startTime, endTime, day, month, year);
+
+        Event myEvent = new Event(inputs);
         myEventDatabase.put(myEvent.getid(), myEvent);
 
     }
